@@ -1,4 +1,4 @@
-\documentclass[xcolor=dvipsnames]{beamer}
+\documentclass[10pt,xcolor=dvipsnames]{beamer}
 
 \usepackage{graphicx,subfigure,url}
 
@@ -41,69 +41,69 @@
 \section{RNN and LSTM}
 
 
-\begin{frame}{RNN}
-  \begin{figure}
+\begin{frame}{Recurrent neural networks}
     \centering
-    \includegraphics[width=.75\textwidth]{fig/figure1.png}
-  \end{figure}
+    \begin{overlayarea}{\textwidth}{.7\textheight}
+    \includegraphics[width=.8\textwidth]{fig/figure1.png}
+    \end{overlayarea}
+
+    \begin{overlayarea}{\textwidth}{.3\textheight}
+      \only<1>{
+        Input $x_t$, hidden layers $h_t^n$, output $y_t$,
+        generative model $\mathbb{P}(x_{t+1} \mid y_t)$}  
+  \only<2>{
+    $h_t^n = $ nonlinear link $\circ$ affine combo of $x_t$, $h_{t-1}^n$, $h_t^{n-1}$
+      \begin{align*}
+      h_t^n = \cH(W_{ih^n} x_t + W_{h^{n-1}h^{n}} h_{t}^{n-1} + W_{h^{n}h^{n}} h_{t-1}^n + b_h^n)
+      \end{align*}
+  }
+  \only<3>{
+    $y_t =$ nonlinear link $\circ$ affine combo of $h_t^n$
+    \begin{align*}
+     y_t = \mathcal{Y}(b_y + \sum_{n=1}^N W_{h^n y} h_t^n)
+    \end{align*}
+  }
+  \only<4>{
+    Train by maximizing likelihood of generative model:
+    \begin{align*}
+     \mathbb{P}(\mathbf{x}) &= \prod_{t=1}^T \mathbb{P}(x_t \mid y_{t-1}) 
+    \end{align*}
+  }
+  \only<5>{
+    Compute $\nabla_\Theta \log \mathbb{P}_\Theta(\bfx)$ by "truncated backpropagation through time"
+    \begin{itemize}
+    \item i.e., reverse chain-rule + "clip" exploding derivatives
+    \end{itemize}
+  }
+    \end{overlayarea}
 \end{frame}
 
-\begin{frame}
-  \begin{align*}
-    \label{eq:eqs1-4}
-    h_t^1 &= \cH(W_{ih^1} x_t + W_{h^1h^1} h_{t-1}^1 + b_h^1)  \\
-    h_t^n &= \cH(W_{ih^n} x_t + W_{h^{n-1}h^{n}} h_{t}^{n-1} + W_{h^{n}h^{n}} h_{t-1}^n + b_h^n) \\
-    \hat{y}_t &= b_y + \sum_{i=1}^N W_{h^n y}h_t^n \\
-    y_t &= \cY(\hat{y}_t)
-  \end{align*}
 
-  Likelihood of input, loss function:
-  \begin{align*}
-    \bbP(\bfx) &= \prod_{t=1}^T \bbP(x_{t+1} \mid y_t) \\
-    \cL(\bfx) &= -\sum_{t=1}^T \log \bbP(x_{t+1} \mid y_t)
-  \end{align*}
-\end{frame}
-
-
-\begin{frame}{LSTM}
-  \begin{figure}
-    \centering
-  \includegraphics[width=.75\linewidth]{fig/figure2.png} 
-  \end{figure}
-\end{frame}
-
-\begin{frame}
-  Instead of 
-  \begin{align*}
-  h_t^n &= \cH(W_{ih^n} x_t + W_{h^{n-1}h^{n}} h_{t}^{n-1} + W_{h^{n}h^{n}} h_{t-1}^n + b_h^n)
-  \end{align*}
-  do we have instead the following?
-  \begin{align*}
-  h_t^n, c_t^n &= \cH(x_t, c_t^{n-1}, h_{t}^{n-1}, h_{t-1}^n)
-  \end{align*}
-\end{frame}
-
-\begin{frame}
- For a really nice explanation of LSTM see:  
-
- \url{colah.github.io/posts/2015-08-Understanding-LSTMs}
-\begin{columns}
-  \begin{column}{.75\textwidth}
+\begin{frame}{Long short term memory\footnote{graphics have slight differences
+      with Graves 2013; they are taken from: \\
+      \url{https://colah.github.io/posts/2015-08-Understanding-LSTMs}} }
  \begin{figure}
    \centering
    \includegraphics[width=\linewidth]{fig/LSTM3-chain.png} 
  \end{figure}
+\begin{columns}
+  \begin{column}{.7\textwidth}
+   Information passes through a series of ``gates''
+   \begin{itemize}
+   \item ``Gate'' = multiplication with sigmoid
+     \begin{itemize}
+     \item $\sigma$ = 0 $\Rightarrow$ ``let nothing thru''
+     \item $\sigma$ = 1 $\Rightarrow$ ``let all thru''
+     \end{itemize}
+   \end{itemize}
   \end{column}
 
-  \begin{column}{.25\textwidth}
-    \begin{block}{Gate=sigmoid + multiplication}
+  \begin{column}{.3\textwidth}
       \begin{figure}
-        \centering
-        \includegraphics[width=.5\linewidth]{fig/LSTM3-gate.png} 
+        %\centering
+        \includegraphics[width=.4\linewidth]{fig/LSTM3-gate.png} 
         \label{fig:gate}
       \end{figure}
-\small{0='nothing thru' \\ 1='all thru'}
-    \end{block}
   \end{column}
 \end{columns}
 \end{frame}
@@ -119,28 +119,23 @@
       \only<5>{\includegraphics[width=\linewidth]{fig/LSTM3-focus-o.png}} 
     \end{center}
   \end{overlayarea}
-  \only<1>{Information flows along cell state}
-  \only<2>{Forget gate controls what to keep from previous}
-  \only<3>{Input gate controls what to add from input}
-  \only<4>{Update cell state from forget and input gates}
-  \only<5>{Output gate controls what to output from cell state}
+  \only<1>{$C_t$ = ``cell state'' = flows horizontally across LSTM units}
+  \only<2>{$f_t$ = ``forget gate'' = gate to forget information from $C_{t-1}$}
+  \only<3>{$i_t$ = ``input gate'' = gate to add information from $h_{t-1}$ and
+    $x_t$ to $C_t$}
+  \only<4>{Update $C_t$ using $f_t$ and $i_t$}
+  \only<5>{$o_t$ = ``output gate'' = gate to output information to cell above/right}
 \end{frame}
 
-\begin{frame}{Backpropagation thru time}
-  \begin{itemize}
-  \item Train with ``backpropagation thru time''
-    \begin{itemize}
-    \item Turn head sideways and do backpropagation
-    \item i.e. reverse-mode automatic differentiation
-    \end{itemize}
-  \item Truncated backpropagation thru time
-    \begin{itemize}
-    \item Improve numerical stability by truncating gradients if they get too
-      big as we go backwards thru the sequence
-    \end{itemize}
-  \end{itemize}
-  Reference other papers?
+\begin{frame}{}
+  Many variations on LSTM exist. Here is the one used
+  in Graves 2013:
+  \includegraphics[width=\linewidth]{fig/LSTM3-var-peepholes.png}
+
+  Notice the extra ``peephole'' connections from
+  $C$ to $f, i, o$
 \end{frame}
+
 
 \section{Generating text}
 
