@@ -2,6 +2,7 @@
 
 \usepackage{graphicx,subfigure,url}
 
+\def\bfs{\mathbf{s}}
 \def\bfc{\mathbf{c}}
 \def\bfx{\mathbf{x}}
 \def\bbP{\mathbb{P}}
@@ -414,11 +415,15 @@ Input $x_t$ = ($\texttt{pos}_t - \texttt{pos}_{t-1}$) $\times$
 
 \begin{frame}
   \frametitle{Handwriting synthesis}
+  \begin{figure}
+    \centering
+    \includegraphics[width=.75\linewidth]{fig/fig13.png} 
+  \end{figure}
   \begin{itemize}
   \item Generate handwriting for a given text
-  \item Main challenge: aligning continuous handwriting sequence with discrete text
-  \item Main idea: bottom hidden layer maintains a distribution of the current position
-    in the text (``soft window'')
+  \item Need to align handwriting with discrete text
+  \item Bottom layer $\to$ distribution of current position
+    (``soft window'')
   \end{itemize}
 \end{frame}
 
@@ -458,14 +463,23 @@ Input $x_t$ = ($\texttt{pos}_t - \texttt{pos}_{t-1}$) $\times$
     \begin{figure}
       \centering
   \includegraphics[width=\linewidth]{fig/fig16.png}
-      \caption{what is the bias term mean here}
       \label{fig:fig16}
     \end{figure}
   \end{column}
 
   \begin{column}{.5\textwidth}
     \begin{itemize}
-    \item Decreasing the variance of the output sequences leads to neater handwriting
+    \item $\downarrow$ variance $\Rightarrow$ neater writing
+      \begin{itemize}
+      \item Component variance:
+        \begin{align*}
+          \sigma^j_t &= \exp(\hat{\sigma}^j_t - b)
+        \end{align*}
+      \item Mixture probabilities:
+        \begin{align*}
+          \pi^j_t &= \frac{\exp(\hat{\pi}_t^j(1+b))}{\sum_{j'}\exp(\hat{\pi}_t^{j'}(1+b))}
+        \end{align*}
+      \end{itemize}
     \end{itemize}
   \end{column}
 \end{columns}
@@ -473,7 +487,43 @@ Input $x_t$ = ($\texttt{pos}_t - \texttt{pos}_{t-1}$) $\times$
 
 \begin{frame}
   \frametitle{Primed sampling}
-  
+ \begin{columns}
+   \begin{column}{.5\textwidth}
+     \centering{
+       \includegraphics[width=.75\linewidth]{fig/fig18.png}
+     }
+   \end{column}
+
+   \begin{column}{.5\textwidth}
+     \centering{
+       \includegraphics[width=.75\linewidth]{fig/fig19.png}
+     }
+   \end{column}
+ \end{columns} 
+ \begin{itemize}
+ \item Mimic specific person without retraining whole network
+ \item For real $\bfx, \bfc$ and new $\bfs$,
+   set $\bfc' = \bfc + \bfs$, and clamp first $T$ inputs to $\bfx$
+ \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Combining biasing + priming}
+ \begin{columns}
+   \begin{column}{.5\textwidth}
+     \centering{
+       \includegraphics[width=.75\linewidth]{fig/fig20.png}
+     }
+   \end{column}
+
+   \begin{column}{.5\textwidth}
+     \centering{
+       \includegraphics[width=.75\linewidth]{fig/fig21.png}
+     }
+   \end{column}
+ \end{columns} 
+ Application: artificial enhancement of poor handwriting?
 \end{frame}
 
 \end{document}
