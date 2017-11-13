@@ -9,6 +9,9 @@
 \def\cY{\mathcal{Y}}
 \def\cL{\mathcal{L}}
 
+\usepackage{listings}
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+
 % example themes
 \usetheme{Frankfurt}
 \usecolortheme{seahorse}
@@ -42,7 +45,7 @@
 \section{RNN and LSTM}
 
 
-\begin{frame}{Recurrent neural networks}
+\begin{frame}{Recurrent Neural Networks}
     \centering
     \begin{overlayarea}{\textwidth}{.7\textheight}
     \includegraphics[width=.8\textwidth]{fig/figure1.png}
@@ -138,14 +141,201 @@
 \end{frame}
 
 
-\section{Generating text}
+\section{Learning and Generating Sequences}
 
 \begin{frame}{Text Prediction}
-  Basic framework for text prediction
+  How do we model a NN that takes a variable input length?
+  \small{(\url{http://karpathy.github.io/2015/05/21/rnn-effectiveness/}).}
+  
+  \vspace{1cm}
+  
+  \includegraphics[width=\linewidth]{fig/nn-types.jpeg}
+\end{frame}
 
-  $y_t = \bbP(x_{t+1})$
+\begin{frame}{}
+  \includegraphics[width=\linewidth]{fig/nn-character.jpeg}
+\end{frame}
 
-  Per-character vs per-word prediction
+\begin{frame}{RNN and LSTM Shakespeare}
+  We compare an RNN with an LSTM to predict Shakespeare.
+\end{frame}
+
+\begin{frame}[fragile]{LSTM Shakespeare}
+  \begin{lstlisting}
+  KING LEAR:
+  O, if you were a feeble sight, the courtesy of your law,
+  Your sight and several breath, will wear the gods
+  With his heads, and my hands are wonder'd at the deeds,
+  So drop upon your lordship's head, and your opinion
+  Shall be against your honour.
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{LSTM Wikipedia}
+  \begin{lstlisting}
+ Naturalism and decision for the majority of Arab countries'
+capitalide was grounded  by the Irish language by [[John
+Clair]], [[An Imperial Japanese Revolt]], associated  with
+Guangzham's sovereignty. His generals were the powerful
+ruler of the Portugal  in the [[Protestant Immineners]],
+which could be said to be directly in Cantonese 
+Communication, which followed a ceremony and set inspired
+prison, training. The  emperor travelled back to [[Antioch,
+Perth, October 25|21]] to note, the Kingdom  of Costa Rica,
+unsuccessful fashioned the [[Thrales]], [[Cynth's Dajoard]],
+known  in western [[Scotland]], near Italy to the conquest
+of India with the conflict. 
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{LSTM Wiki Markdown}
+  \begin{lstlisting}
+  { { cite journal | id=Cerling Nonforest Department|format=Newlymeslated|none } }
+  ''www.e-complete''.
+  
+  '''See also''': [[List of ethical consent processing]]
+  
+  == See also ==
+  *[[Iender dome of the ED]]
+  *[[Anti-autism]]
+  
+  ===[[Religion|Religion]]===
+  *[[French Writings]]
+  *[[Maria]]
+  *[[Revelation]]
+  *[[Mount Agamul]]
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{LSTM XML}
+  \begin{lstlisting}
+<page>
+  <title>Antichrist</title>
+  <id>865</id>
+  <revision>
+    <id>15900676</id>
+    <timestamp>2002-08-03T18:14:12Z</timestamp>
+    <contributor>
+      <username>Paris</username>
+      <id>23</id>
+    </contributor>
+    <minor />
+    <comment>Automated conversion</comment>
+    <text xml:space="preserve">#REDIRECT [[Christianity]]</text>
+  </revision>
+</page>
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{LSTM XML}
+  \begin{lstlisting}
+<page>
+  <title>Antichrist</title>
+  <id>865</id>
+  <revision>
+    <id>15900676</id>
+    <timestamp>2002-08-03T18:14:12Z</timestamp>
+    <contributor>
+      <username>Paris</username>
+      <id>23</id>
+    </contributor>
+    <minor />
+    <comment>Automated conversion</comment>
+    <text xml:space="preserve">#REDIRECT [[Christianity]]</text>
+  </revision>
+</page>
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}{LSTM \LaTeX}
+  \includegraphics[width=\linewidth]{fig/lstm-latex-1.jpeg}
+\end{frame}
+
+\begin{frame}[fragile]{LSTM C++}
+\begin{lstlisting}
+/*
+ * If this error is set, we will need anything right after
+ * that BSD.
+ */
+static void action_new_function(struct s_stat_info *wb)
+{
+  unsigned long flags;
+  int lel_idx_bit = e->edd, *sys & ~((unsigned long) *FIRST_COMPAT);
+  buf[0] = 0xFFFFFFFF & (bit << 4);
+  min(inc, slist->bytes);
+  printk(KERN_WARNING "Memory allocated %02x/%02x, "
+    "original MLL instead\n"),
+    min(min(multi_run - s->len, max) * num_data_in),
+    frame_pos, sz + first_seg);
+  div_u64_w(val, inb_p);
+  spin_unlock(&disk->queue_lock);
+  mutex_unlock(&s->sock->mutex);
+  mutex_unlock(&func->mutex);
+  return disassemble(info->pending_bh);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{LSTM C++}
+
+\begin{lstlisting}[basicstyle=\tiny\ttfamily]
+static void num_serial_settings(struct tty_struct *tty)
+{
+  if (tty == tty)
+    disable_single_st_p(dev);
+  pci_disable_spool(port);
+  return 0;
+}
+
+static void do_command(struct seq_file *m, void *v)
+{
+  int column = 32 << (cmd[2] & 0x80);
+  if (state)
+    cmd = (int)(int_state ^ (in_8(&ch->ch_flags) & Cmd) ? 2 : 1);
+  else
+    seq = 1;
+  for (i = 0; i < 16; i++) {
+    if (k & (1 << 1))
+      pipe = (in_use & UMXTHREAD_UNCCA) +
+        ((count & 0x00000000fffffff8) & 0x000000f) << 8;
+    if (count == 0)
+      sub(pid, ppc_md.kexec_handle, 0x20000000);
+    pipe_set_bytes(i, 0);
+  }
+  /* Free our user pages pointer to place camera if all dash */
+  subsystem_info = &of_changes[PAGE_SIZE];
+  rek_controls(offset, idx, &soffset);
+  /* Now we want to deliberately put it to device */
+  control_check_polarity(&context, val, 0);
+  for (i = 0; i < COUNTER; i++)
+    seq_puts(s, "policy ");
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Visualizing Predictions: What Do Neurons Do?}
+  \includegraphics[width=\linewidth]{fig/lstm-pred-1.jpeg}
+\end{frame}
+\begin{frame}{Visualizing Predictions: What Do Neurons Do?}
+  \includegraphics[width=\linewidth]{fig/lstm-pred-2.jpeg}
+\end{frame}
+\begin{frame}{Visualizing Predictions: What Do Neurons Do?}
+  \includegraphics[width=\linewidth]{fig/lstm-pred-3.jpeg}
+\end{frame}
+\begin{frame}{Visualizing Predictions: What Do Neurons Do?}
+  \includegraphics[width=\linewidth]{fig/lstm-pred-4.jpeg}
+\end{frame}
+\begin{frame}{Visualizing Predictions: What Do Neurons Do?}
+  \includegraphics[width=\linewidth,trim=0 17cm 0 0,clip]{fig/lstm-pred-5.png}
+\end{frame}
+\begin{frame}{Visualizing Predictions: What Do Neurons Do?}
+  \includegraphics[width=\linewidth,trim=0 0 0 13.5cm,clip]{fig/lstm-pred-5.png}
+\end{frame}
+\begin{frame}{Visualizing Predictions: What Do Neurons Do?}
+  \includegraphics[width=\linewidth,trim=0 18cm 0 0,clip]{fig/lstm-pred-6.png}
+\end{frame}
+\begin{frame}{Visualizing Predictions: What Do Neurons Do?}
+  \includegraphics[width=\linewidth,trim=0 0 0 12.7cm,clip]{fig/lstm-pred-6.png}
 \end{frame}
 
 \begin{frame}{Penn Treebank Test Set}
@@ -156,17 +346,7 @@
   Regularization schemes
 \end{frame}
 
-\begin{frame}{Wikipedia Experiments}
-  \begin{itemize}
-  \item   Wikipedia experiments
-  \item \url{karpathy.github.io/2015/05/21/rnn-effectiveness} has some nice
-    visualizations for understanding what's going on, e.g. what the inner
-    neurons represent
-  \end{itemize}
-\end{frame}
-
 \section{Generating handwriting}
-
 \begin{frame}
   \begin{figure}
     \centering
