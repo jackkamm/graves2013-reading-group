@@ -19,12 +19,14 @@
 \usecolortheme{rose}
 
 % put page numbers
-% \setbeamertemplate{footline}[frame number]{}
+\setbeamertemplate{footline}[frame number]{}
 % remove navigation symbols
-% \setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{navigation symbols}{}
 
 \AtBeginSection[]
 {
+  % render the little circles in Frankfurt theme, without subsections
+  \setcounter{subsection}{1}
   \begin{frame}
     \frametitle{Table of Contents}
     \tableofcontents[currentsection]
